@@ -2,11 +2,12 @@
 import random
 quote = "methinks it is like a weasel"
 
-def generate(target):
+def generate(target, attempt):
     values = "abcdefghijklmnopqrstuvwxyz "
-    output = ""
-    for x in target:
-        output += values[random.randint(0,len(values)-1)]
+    output = attempt
+    for x in range(len(target)):
+        if output[x] != target[x]:
+            output[x] = values[random.randint(0,len(values)-1)]
     return output
 
 
@@ -20,19 +21,19 @@ def do(target):
     done = False
     count = 0
     highScore = 0
-    bestAttempt = ""
+    bestAttempt = ["A"] * len(target)
     while not done:
         count += 1
-        output = generate(target)
+        output = generate(target, bestAttempt)
         thisScore = score(target, output)
         if thisScore > highScore:
             highScore = thisScore
             bestAttempt = output
         if thisScore == len(target):
             done = True
-            print("Done on attempt: " + count)
+            print("Done on attempt: %i" % (count) )
         if count % 1000 == 0:
-            print(highScore)
-            print(bestAttempt)
+            print("Attempt %i: Best Score - %i\nBest Attempt: %s"
+             % (count, highScore, ''.join(bestAttempt)))
 
 do(quote)
