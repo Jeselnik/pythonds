@@ -3,11 +3,20 @@ import random
 quote = "methinks it is like a weasel"
 
 def generate(target, attempt):
-    values = "abcdefghijklmnopqrstuvwxyz "
+    charset = "abcdefghijklmnopqrstuvwxyz "
     output = attempt
-    for x in range(len(target)):
-        if output[x] != target[x]:
-            output[x] = values[random.randint(0,len(values)-1)]
+
+    if len(target) != len(attempt) : 
+        raise RuntimeError("Target & Prev Attempt strings not equal!")
+    else:
+        for x in range(len(target)):
+            if output[x] != target[x]:
+                if target[x] not in charset: 
+                    raise ValueError("Character %c not present in charset" 
+                                     % (target[x]))
+                else:
+                    output[x] = charset[random.randint(0,len(charset)-1)]
+
     return output
 
 
@@ -21,7 +30,8 @@ def do(target):
     done = False
     count = 0
     highScore = 0
-    bestAttempt = ["A"] * len(target)
+    bestAttempt = [None] * len(target)
+
     while not done:
         count += 1
         output = generate(target, bestAttempt)
