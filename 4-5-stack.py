@@ -27,4 +27,41 @@ def revStr(str):
         reversed += s.pop()
     return reversed
 
+def parChecker(str):
+    balanced = True
+    index = 0
+    s = Stack()
+    while index < len(str) and balanced:
+        char = str[index]
+        if char == '(': 
+            s.push('(') 
+        else:
+            if s.isEmpty():
+                balanced = False
+            else:
+                s.pop()
+        index += 1
+    if balanced and s.isEmpty():
+        balanced = True
+    else:
+        balanced = False
+    return balanced
+
+def baseConverter(int, base):
+    numeralSet = "0123456789ABCDEF"
+    if int > 0:
+        s = Stack()
+        while int != 0:
+            s.push(numeralSet[int%base])
+            int = int // base
+
+        binary = ""
+        while not s.isEmpty():
+            binary += str(s.pop())
+        return binary
+    else:
+        raise ValueError("Number must be positive")
+
 print(revStr("Hello"))
+print(parChecker("(()"))
+print(baseConverter(26, 26))
