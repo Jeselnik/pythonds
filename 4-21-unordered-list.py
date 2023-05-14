@@ -20,6 +20,9 @@ class UnorderedList:
     def __init__(self) -> None:
         self.head = None
 
+    def getHead(self):
+        return self.head
+
     def add(self, item):
         n = Node(item)
         n.setNext(self.head)
@@ -60,9 +63,37 @@ class UnorderedList:
             self.head = current.getNext()
         else:
             prev.setNext(current.getNext())
+    
+    def append(self, item):
+        current = self.head
+        n = Node(item)
+        if current == None:
+            self.head = n
+        else:
+            while current.getNext() != None:
+                current = current.getNext()
+            current.setNext(n)
+
+    def index(self, item) -> int:
+        current = self.head
+        if current == None:
+            raise LookupError("Empty List!")
+        found = False
+        count = 0
+        while current != None and not found:
+            if current.getData() == item:
+                found = True
+            else:
+                count += 1
+                current = current.getNext()
+        if not found:
+            raise LookupError("{} not present in list".format(item))
+        return count
 
     
 newList = UnorderedList()
-newList.add(1)
-newList.add(3)
-newList.add(9)
+newList.append(12)
+newList.add(7)
+newList.add(4)
+print(newList.size())
+print(newList.index(22))
