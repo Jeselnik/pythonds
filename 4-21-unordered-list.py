@@ -22,6 +22,12 @@ class UnorderedList:
 
     def getHead(self):
         return self.head
+    
+    def isEmpty(self):
+        empty = True
+        if self.head != None:
+            empty = False
+        return empty
 
     def add(self, item):
         n = Node(item)
@@ -89,11 +95,32 @@ class UnorderedList:
         if not found:
             raise LookupError("{} not present in list".format(item))
         return count
-
+    
+    def pop(self):
+        current = self.head
+        prev = None
+        while current.getNext() != None:
+            prev = current
+            current = current.getNext()
+        prev.setNext(None)
+        return current.getData()
+    
+    def insert(self,index,item):
+        current = self.head
+        prev = None
+        for i in range(index):
+            prev = current
+            current = current.getNext()
+        n = Node(item)
+        prev.setNext(n)
+        n.setNext(current)
     
 newList = UnorderedList()
-newList.append(12)
-newList.add(7)
-newList.add(4)
+for i in [1, 2, 3, 4, 5]:
+    newList.add(i)
 print(newList.size())
-print(newList.index(22))
+newList.insert(2, 10)
+c = newList.getHead()
+while c != None:
+    print(c.getData())
+    c = c.getNext()
